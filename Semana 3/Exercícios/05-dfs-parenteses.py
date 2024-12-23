@@ -10,15 +10,20 @@ def criaAdj(n,m):
     return adj
 
 def visitaDFS(adj, d, f, cor, v, tempo):
+    # descoberta
+    saidaTexto = "(%d " % v
     tempo[0] += 1
     d[v] = tempo[0]
     cor[v] = CINZA
     for u in adj[v]:
         if cor[u] == BRANCO:
-            visitaDFS(adj, d, f, cor, u, tempo)
+            saidaTexto += visitaDFS(adj, d, f, cor, u, tempo)
+    # finaliza
+    saidaTexto += "%d) " % v
     tempo[0] += 1
     f[v] = tempo[0]
     cor[v] = PRETO
+    return saidaTexto
 
 # algortimo dfs
 def dfs(n,m):
@@ -30,10 +35,11 @@ def dfs(n,m):
     for v in range (n):
         cor[v] = BRANCO
     tempo = [0]
+    saidaTexto = ""
     for v in range (n):
         if cor[v] == BRANCO:
-            visitaDFS(adj, d, f, cor, v, tempo)
-    return d,f
+            saidaTexto += visitaDFS(adj, d, f, cor, v, tempo)
+    print(saidaTexto)
 
 n, m = (int(tmp) for tmp in input().split(" "))
 dfs(n,m)
